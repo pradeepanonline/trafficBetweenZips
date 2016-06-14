@@ -4,17 +4,27 @@ var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
 
-var server = new Server('D-SJN-00531090.paypalcorp.com', 27017, {auto_reconnect: true});
-db = new Db('maps', server);
+//var server = new Server('D-SJN-00531090.paypalcorp.com', 27017, {auto_reconnect: true});
+var server = new Server('ds031632.mongolab.com', 31632, {auto_reconnect: true});
+
+//db = new Db('maps', server);
+var db = new Db('heroku_app36283253', server);
+
 
 db.open(function(err, db) {
     if(!err) {
         console.log("Connected to 'maps' database");
-        db.collection('maps', {strict:true}, function(err, collection) {
+        db.authenticate('heroku_app36283253', 'llm46nefmbrue5kp61l2u2a8q7', function(err, result) {
+            if(err) {
+                console.log("Failed to authenticate !");
+                process.exit();
+            }
+            db.collection('maps', {strict:true}, function(err, collection) {
             if (err) {
                 console.log("The 'maps' collection doesn't exist. Creating it with sample data...");
                 populateDB();
             }
+        });
         });
     }
 });
