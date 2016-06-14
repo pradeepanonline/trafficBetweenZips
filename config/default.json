@@ -1,0 +1,15 @@
+{
+  "zips": {
+    "center": "95131",
+    "points": "94085,94539,95135"
+  },
+  "dbConfig": {
+    "host": 100,
+    "port": 1,
+    "password": "password"
+  },
+  "schedule": {
+    "repeat_minutes": 30
+  },
+  "apiKey" : "AIzaSyBLnm_JO6x0CEythRS1zgFbY8Aq4ovcYc0"
+}
