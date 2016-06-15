@@ -73,6 +73,7 @@ var getTime = function(url, doneCallBack) {
 
 console.log("Program Started at time: " + new Date());
 
+var minutes = config.get('schedule.repeat_minutes');
 var apiKey = config.get('apiKey');
 var center = config.get('zips.center');
 console.log(center);
@@ -104,7 +105,8 @@ for (var i in allZips) {
 
 console.log(urlarray);
 
-var j = schedule.scheduleJob('*/5 * * * *', function(){
+var cmd = "*/" + minutes + " * * * *";
+var j = schedule.scheduleJob(cmd, function(){
 //invoke every 15 mins in parallel
 async.each(urlarray, getTime, function(err) {
     if (err) {

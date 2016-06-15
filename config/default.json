@@ -9,7 +9,7 @@
     "password": "password"
   },
   "schedule": {
-    "repeat_minutes": 30
+    "repeat_minutes": 15
   },
   "apiKey" : "AIzaSyBLnm_JO6x0CEythRS1zgFbY8Aq4ovcYc0"
 }
