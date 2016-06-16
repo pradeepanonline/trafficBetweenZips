@@ -52,7 +52,7 @@ var getTime = function(url, doneCallBack) {
 			var timeInSeconds = data.rows[0].elements[0].duration_in_traffic.value;
 
             console.log("[[[[Origin: " + origin + " Destination: " + destn + " Time : " + timeInSeconds + "]]]");
-            var metric = "." + origin + "->" + destn + " ";
+            var metric = "." + origin + "-" + destn + " ";
 			var socket = net.createConnection(2003, "6c2e3e4b.carbon.hostedgraphite.com", function() {
 			   console.log("Writing to socket ....");
                socket.write(apikey + metric + timeInSeconds + "\n");
