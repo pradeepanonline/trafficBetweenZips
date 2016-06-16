@@ -56,21 +56,20 @@ var getTime = function(url, doneCallBack) {
             var metric = "." + origin + "-" + destn + " ";
 			var socket = net.createConnection(2003, "6c2e3e4b.carbon.hostedgraphite.com", function() {
 			   console.log("Writing to socket ....");
-			   console.log(apikey);
+			   //console.log(apikey);
                socket.write(apikey + metric + timeInSeconds + "\n");
                socket.end();
+
+               var newentry = {
+               				origin : origin,
+               				destn : destn,
+               				duration_in_traffic : timeInSeconds,
+               				timestamp : currentTime
+               			};
+               			//console.log(newentry);
+               			crud.addMap(newentry);
+               			return doneCallBack(null);
             });
-
-			var newentry = {
-				origin : origin,
-				destn : destn,
-				duration_in_traffic : timeInSeconds,
-				timestamp : currentTime
-			};
-			console.log(newentry);
-
-			crud.addMap(newentry);
-			return doneCallBack(null);
 
 		});
 	});
