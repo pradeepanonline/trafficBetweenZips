@@ -4,6 +4,8 @@ var crud = require('./routes/mapCrud');
 var schedule = require('node-schedule');
 var config = require('config');
 var net    = require('net');
+var dgram = require('dgram');
+
 
 /* Sample URL
 "https://maps.googleapis.com/maps/api/distancematrix/json?departure_time=now&units=imperial&origins=94086&destinations=94539&key=AIzaSyBLnm_JO6x0CEythRS1zgFbY8Aq4ovcYc0";
@@ -53,20 +55,31 @@ var getTime = function(url, doneCallBack) {
 
             console.log("[[[[Origin: " + origin + " Destination: " + destn + " Time : " + timeInSeconds + "]]]");
             var metric = "." + origin + "-" + destn + " ";
+            var content = apikey + metric + timeInSeconds + "\n";
+
+            var message = new Buffer(content);
+            var client = dgram.createSocket("udp4");
+                client.send(message, 0, message.length, 2003, "6c2e3e4b.carbon.hostedgraphite.com", function(err, bytes) {
+                client.close();
+
+                var newentry = {
+                    origin : origin,
+                    destn : destn,
+                    duration_in_traffic : timeInSeconds,
+                    timestamp : currentTime
+                };
+
+                crud.addMap(newentry);
+                return doneCallBack(null);
+            });
+
+			/*
 			var socket = net.createConnection(2003, "6c2e3e4b.carbon.hostedgraphite.com", function() {
 			   console.log("Writing to socket ....");
-               socket.write(apikey + metric + timeInSeconds + "\n");
+               socket.write(content);
                socket.end();
+            */
 
-               var newentry = {
-               				origin : origin,
-               				destn : destn,
-               				duration_in_traffic : timeInSeconds,
-               				timestamp : currentTime
-               			};
-               			//console.log(newentry);
-               			crud.addMap(newentry);
-               			return doneCallBack(null);
             });
 
 		});
