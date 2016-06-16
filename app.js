@@ -3,9 +3,7 @@ var async = require('async');
 var crud = require('./routes/mapCrud');
 var schedule = require('node-schedule');
 var config = require('config');
-
-
-
+var net    = require('net');
 
 /* Sample URL
 "https://maps.googleapis.com/maps/api/distancematrix/json?departure_time=now&units=imperial&origins=94086&destinations=94539&key=AIzaSyBLnm_JO6x0CEythRS1zgFbY8Aq4ovcYc0";
@@ -55,6 +53,14 @@ var getTime = function(url, doneCallBack) {
 			timeInSeconds = data.rows[0].elements[0].duration_in_traffic.value;
 
 			console.log("###########" + timeInSeconds + "############");
+            var metric = "." + origin + "-" + destn + " ";
+			var socket = net.createConnection(2003, "6c2e3e4b.carbon.hostedgraphite.com", function() {
+			   console.log("Writing to socket ....");
+			   console.log(apikey);
+               socket.write(apikey + metric + timeInSeconds + "\n");
+               socket.end();
+            });
+
 			var newentry = {
 				origin : origin,
 				destn : destn,
@@ -73,6 +79,9 @@ var getTime = function(url, doneCallBack) {
 
 console.log("Program Started at time: " + new Date());
 
+var apikey = process.env.HOSTEDGRAPHITE_APIKEY;
+console.log("API Key = " + apikey);
+apikey = "68ca0ce6-df50-4ff4-b2f8-c7b98a44174f";
 var minutes = config.get('schedule.repeat_minutes');
 var apiKey = config.get('apiKey');
 var center = config.get('zips.center');
@@ -117,8 +126,6 @@ async.each(urlarray, getTime, function(err) {
     });
 
 });
-
-
 
 
 console.log("finished");
