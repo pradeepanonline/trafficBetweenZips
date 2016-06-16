@@ -59,18 +59,19 @@ var getTime = function(url, doneCallBack) {
 
             var message = new Buffer(content);
             var client = dgram.createSocket("udp4");
-                client.send(message, 0, message.length, 2003, "6c2e3e4b.carbon.hostedgraphite.com", function(err, bytes) {
-                client.close();
+            client.send(message, 0, message.length, 2003, "6c2e3e4b.carbon.hostedgraphite.com", function(err, bytes) {
+            client.close();
 
-                var newentry = {
+            var newentry = {
                     origin : origin,
                     destn : destn,
                     duration_in_traffic : timeInSeconds,
                     timestamp : currentTime
-                };
+            };
 
-                crud.addMap(newentry);
-                return doneCallBack(null);
+            crud.addMap(newentry);
+            return doneCallBack(null);
+
             });
 
 			/*
@@ -78,9 +79,8 @@ var getTime = function(url, doneCallBack) {
 			   console.log("Writing to socket ....");
                socket.write(content);
                socket.end();
-            */
-
             });
+            */
 
 		});
 	});
