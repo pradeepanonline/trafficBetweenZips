@@ -32,7 +32,6 @@ var getTime = function(url, doneCallBack) {
         }
     }
 
-    console.log("[[[[Origin: " + origin + " Destination: " + destn + "]]]");
 
 	https.get(url, function(response) {
 		// data is streamed in chunks from the server
@@ -50,13 +49,12 @@ var getTime = function(url, doneCallBack) {
 			//console.log("\n\n\n");
 			data = JSON.parse(buffer);
 			// extract time
-			timeInSeconds = data.rows[0].elements[0].duration_in_traffic.value;
+			var timeInSeconds = data.rows[0].elements[0].duration_in_traffic.value;
 
-			console.log("###########" + timeInSeconds + "############");
-            var metric = "." + origin + "-" + destn + " ";
+            console.log("[[[[Origin: " + origin + " Destination: " + destn + " Time : " + timeInSeconds + "]]]");
+            var metric = "." + origin + "->" + destn + " ";
 			var socket = net.createConnection(2003, "6c2e3e4b.carbon.hostedgraphite.com", function() {
 			   console.log("Writing to socket ....");
-			   //console.log(apikey);
                socket.write(apikey + metric + timeInSeconds + "\n");
                socket.end();
 
