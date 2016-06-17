@@ -7,6 +7,8 @@ Is there a time window that is absolutely, consistently horrible for driving con
 This daemon uses Google Maps API to poll driving times every 15 minutes using node.js async library
 The result is stored in MongoDB - but later I decided to emit the metrics using UDP to Graphite using a plugin provided for Heroku. 
 
-Here is a snapshot from real-time monitoring
+Here is a snapshot from real-time monitoring.
+
+![Graphite Screenshot](images/traffic_graphite.png?raw=true "Traffic Conditions")
 
 
