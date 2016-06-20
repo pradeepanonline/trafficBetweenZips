@@ -91,7 +91,7 @@ console.log("Program Started at time: " + new Date());
 
 var apikey = process.env.HOSTEDGRAPHITE_APIKEY;
 console.log("API Key = " + apikey);
-apikey = "68ca0ce6-df50-4ff4-b2f8-c7b98a44174f";
+apikey = "fc6bc307-100e-4f38-826e-c7d70d3fbb12";
 var minutes = config.get('schedule.repeat_minutes');
 var apiKey = config.get('apiKey');
 var center = config.get('zips.center');
