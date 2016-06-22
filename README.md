@@ -9,6 +9,8 @@ The result is stored in MongoDB - but later I decided to emit the metrics using 
 
 Here is a snapshot from real-time monitoring.
 
+https://www.hostedgraphite.com/98f78989/f172f2a6-32d7-4061-8b7b-35ad34a51002/grafana/dashboard/db/prad?from=1466493431183&to=1466579831184
+
 ![Graphite Screenshot](images/traffic_graphite.png?raw=true "Traffic Conditions")
 
 
