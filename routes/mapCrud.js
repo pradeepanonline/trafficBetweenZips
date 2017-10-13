@@ -4,7 +4,6 @@ var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
 
-//var server = new Server('D-SJN-00531090.paypalcorp.com', 27017, {auto_reconnect: true});
 var server = new Server('ds031632.mongolab.com', 31632, {auto_reconnect: true});
 
 //db = new Db('maps', server);
