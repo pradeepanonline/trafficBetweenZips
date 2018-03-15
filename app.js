@@ -1,6 +1,5 @@
 var https = require("https");
 var async = require('async');
-var crud = require('./routes/mapCrud');
 var schedule = require('node-schedule');
 var config = require('config');
 var net    = require('net');
@@ -55,10 +54,11 @@ var getTime = function(url, doneCallBack) {
 
             console.log("[[[[Origin: " + origin + " Destination: " + destn + " Time : " + timeInSeconds + "]]]");
             var metric = "." + origin + "-" + destn + " ";
-            var content = apikey + metric + timeInSeconds + "\n";
+            var content = graphiteApikey + metric + timeInSeconds + "\n";
 
             var message = new Buffer(content);
             var client = dgram.createSocket("udp4");
+            console.log("About to send to Graphite");
             client.send(message, 0, message.length, 2003, "6c2e3e4b.carbon.hostedgraphite.com", function(err, bytes) {
             client.close();
 
@@ -69,7 +69,6 @@ var getTime = function(url, doneCallBack) {
                     timestamp : currentTime
             };
 
-            crud.addMap(newentry);
             return doneCallBack(null);
 
             });
@@ -89,11 +88,11 @@ var getTime = function(url, doneCallBack) {
 
 console.log("Program Started at time: " + new Date());
 
-var apikey = process.env.HOSTEDGRAPHITE_APIKEY;
-console.log("API Key = " + apikey);
-apikey = "fc6bc307-100e-4f38-826e-c7d70d3fbb12";
+var graphiteApikey = process.env.HOSTEDGRAPHITE_APIKEY;
+graphiteApikey = "fc6bc307-100e-4f38-826e-c7d70d3fbb12";
 var minutes = config.get('schedule.repeat_minutes');
 var apiKey = config.get('apiKey');
+console.log("API Key read is " + apiKey);
 var center = config.get('zips.center');
 console.log(center);
 var points = config.get('zips.points');
@@ -131,7 +130,7 @@ async.each(urlarray, getTime, function(err) {
     if (err) {
         console.log("Something went wrong : " + err);
       }
-     console.log("done");
+     console.log("###########done#########");
      //process.exit(0);
     });
 
