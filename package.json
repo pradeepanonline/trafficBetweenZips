@@ -10,7 +10,7 @@
     "ejs": "*",
     "errorhandler": "1.0.0",
     "express": "4.5.1",
-    "method-override": "2.1.0",
+    "method-override": "2.3.10",
     "mongodb": "*",
     "morgan": "^1.7.0",
     "net": "^1.0.2",
